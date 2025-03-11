@@ -1,5 +1,5 @@
 const fs = require("fs");
-const ProductServices = require("../../services/products");
+const { ProductServices } = require("../../services");
 
 const getAllProductsController = async (req, res) => {
   try {

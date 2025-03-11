@@ -1,4 +1,4 @@
-const prisma = require("../../db");
+const prisma = require("../config/prisma");
 
 class ProductServices {
   static getAllProducts = async () => {

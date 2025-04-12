@@ -12,6 +12,7 @@ const authMiddleware = async (req, res, next) => {
   } catch (err) {
     return res.status(400).send({
       message: "Invalid token",
+      details: err.message,
     });
   }
 };

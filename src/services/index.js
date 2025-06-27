@@ -1,7 +1,7 @@
-const ProductServices = require("./products");
+const TodoServices = require("./todos");
 const UserServices = require("./users");
 
 module.exports = {
-  ProductServices,
+  TodoServices,
   UserServices,
 };

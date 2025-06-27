@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { UserServices } = require("../../services");
 const bcrypt = require("bcryptjs");
+const formatResponseAPI = require("../../utils");
 
 const loginController = async (req, res) => {
   try {
@@ -8,17 +9,13 @@ const loginController = async (req, res) => {
     const existingUser = await UserServices.getUserByEmail(email);
 
     if (!existingUser) {
-      return res.status(400).send({
-        message: "User not found",
-      });
+      return res.status(400).send(formatResponseAPI.error("User not found"));
     }
 
     const passIsMatch = await bcrypt.compare(password, existingUser.password);
 
     if (!passIsMatch) {
-      return res.status(400).send({
-        message: "Invalid password",
-      });
+      return res.status(400).send(formatResponseAPI.error("Invalid password"));
     }
 
     const token = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET, {
@@ -28,18 +25,14 @@ const loginController = async (req, res) => {
     // hapus password dari response
     delete existingUser.password;
 
-    return res.status(200).send({
-      data: {
+    return res.status(200).send(
+      formatResponseAPI.success("Login successful", {
         ...existingUser,
         token,
-      },
-      message: "Login success",
-    });
+      })
+    );
   } catch (err) {
-    return res.status(500).send({
-      message: "Internal server error",
-      details: err.message,
-    });
+    return res.status(500).send(formatResponseAPI.error(err.message, err));
   }
 };
 

@@ -1,4 +1,4 @@
-const prisma = require("../config/prisma");
+const prisma = require("@config/prisma");
 
 class UserServices {
   static getUserByEmail = async (email) => {

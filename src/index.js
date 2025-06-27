@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
+require("module-alias/register");
 
 const app = express();
 const port = 2000;

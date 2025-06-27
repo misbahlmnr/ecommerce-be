@@ -21,12 +21,11 @@ model User {
   createAt DateTime @default(now())
 }
 
-model Product {
+model Todos {
   id Int @id @default(autoincrement())
-  name String
-  price Float
+  title String
   description String? @db.Text
-  imageUrl String? @db.Text
+  archived Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -1,20 +1,25 @@
 const prisma = require("@config/prisma");
 
 class TodoServices {
-  static getAllTodos = async () => {
+  static getAllTodos = async (userId) => {
     try {
-      const todos = await prisma.todos.findMany();
+      const todos = await prisma.todos.findMany({
+        where: {
+          userId,
+        },
+      });
       return todos;
     } catch (error) {
       throw new Error(error.message);
     }
   };
 
-  static getTodoById = async (id) => {
+  static getTodoById = async (todoId, userId) => {
     try {
       const todo = await prisma.todos.findUnique({
         where: {
-          id,
+          id: todoId,
+          userId,
         },
       });
       return todo;
@@ -52,11 +57,12 @@ class TodoServices {
     }
   };
 
-  static deleteTodo = async (id) => {
+  static deleteTodo = async (todoId, userId) => {
     try {
       const todo = await prisma.todos.delete({
         where: {
-          id,
+          id: todoId,
+          userId,
         },
       });
       return todo;

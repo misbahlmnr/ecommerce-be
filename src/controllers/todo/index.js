@@ -2,8 +2,9 @@ const { TodoServices } = require("@services");
 const formatResponseAPI = require("@utils");
 
 const getAllTodoController = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const todos = await TodoServices.getAllTodos();
+    const todos = await TodoServices.getAllTodos(userId);
 
     return res
       .status(200)
@@ -16,6 +17,7 @@ const getAllTodoController = async (req, res) => {
 };
 
 const getTodoByIdController = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
 
   if (typeof parseInt(id) !== "number") {
@@ -23,7 +25,7 @@ const getTodoByIdController = async (req, res) => {
   }
 
   try {
-    const todo = await TodoServices.getTodoById(parseInt(id));
+    const todo = await TodoServices.getTodoById(parseInt(id), userId);
 
     if (!todo) {
       return res.status(400).send(formatResponseAPI.error("Product not found"));
@@ -40,16 +42,10 @@ const getTodoByIdController = async (req, res) => {
 };
 
 const postTodoController = async (req, res) => {
+  const userId = req.user.id;
   const { title, description, archived } = req.body;
 
-  // const imageUrl = req.file
-  //   ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
-  //   : null;
-
   if (!title || !description) {
-    // // hapus file nya jika data tidak lengkap
-    // if (req.file) fs.unlinkSync(req.file.path);
-
     return res
       .status(422)
       .send(formatResponseAPI.error("Please provide all required fields"));
@@ -60,15 +56,13 @@ const postTodoController = async (req, res) => {
       title,
       description,
       archived,
+      userId,
     });
 
     return res
       .status(201)
       .send(formatResponseAPI.success("Product created", todo));
   } catch (error) {
-    // // hapus file nya jika ada error
-    // if (req.file) fs.unlinkSync(req.file.path);
-
     return res
       .status(500)
       .send(formatResponseAPI.error("Internal server error", error));
@@ -76,12 +70,9 @@ const postTodoController = async (req, res) => {
 };
 
 const putTodoController = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
   const { title, description, archived } = req.body;
-
-  // const imageUrl = req.file
-  //   ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
-  //   : null;
 
   if (typeof parseInt(id) !== "number") {
     return res.status(400).send(formatResponseAPI.error("Invalid product id"));
@@ -98,6 +89,7 @@ const putTodoController = async (req, res) => {
       title,
       description,
       archived,
+      userId,
     });
 
     if (!todo) {
@@ -113,6 +105,7 @@ const putTodoController = async (req, res) => {
 };
 
 const deleteTodoController = async (req, res) => {
+  const userId = req.user.id;
   const { id } = req.params;
 
   if (typeof parseInt(id) !== "number") {
@@ -120,7 +113,7 @@ const deleteTodoController = async (req, res) => {
   }
 
   try {
-    const todo = await TodoServices.deleteTodo(parseInt(id));
+    const todo = await TodoServices.deleteTodo(parseInt(id), userId);
 
     if (!todo) {
       return res.status(400).send(formatResponseAPI.error("Product not found"));

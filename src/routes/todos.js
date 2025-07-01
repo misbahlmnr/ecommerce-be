@@ -6,7 +6,6 @@ const {
   deleteTodoController,
   deleteAllTodoController,
 } = require("../controllers/todo");
-const upload = require("../middleware/upload");
 
 const express = require("express");
 
@@ -14,7 +13,7 @@ const router = express.Router();
 
 router.get("/", getAllTodoController);
 router.get("/:id", getTodoByIdController);
-router.post("/", upload.single("image"), postTodoController);
+router.post("/", postTodoController);
 router.put("/:id", putTodoController);
 router.delete("/:id", deleteTodoController);
 router.delete("/", deleteAllTodoController);

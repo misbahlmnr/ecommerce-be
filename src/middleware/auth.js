@@ -1,4 +1,4 @@
-const formatResponseAPI = require("@/utils");
+const formatResponseAPI = require("../utils");
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {

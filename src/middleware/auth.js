@@ -1,5 +1,5 @@
+const formatResponseAPI = require("@/utils");
 const jwt = require("jsonwebtoken");
-const formatResponseAPI = require("@utils");
 
 const authMiddleware = async (req, res, next) => {
   const token = req.header("Authorization");

@@ -1,7 +1,6 @@
+const { getProfileController } = require("@/controllers/profile");
 const express = require("express");
 const router = express.Router();
-
-const { getProfileController } = require("@controllers/profile");
 
 router.get("/me", getProfileController);
 

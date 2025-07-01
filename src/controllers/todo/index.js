@@ -1,5 +1,5 @@
-const { TodoServices } = require("@services");
-const formatResponseAPI = require("@utils");
+const { TodoServices } = require("@/services");
+const formatResponseAPI = require("@/utils");
 
 const getAllTodoController = async (req, res) => {
   const userId = req.user.id;

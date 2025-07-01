@@ -5,7 +5,7 @@ const router = express.Router();
 const authRoutes = require("./auth");
 const profileRoutes = require("./profile");
 const todoRoutes = require("./todos");
-const authMiddleware = require("@middleware/auth");
+const authMiddleware = require("@/middleware/auth");
 
 // Register routes
 router.use("/auth", authRoutes);

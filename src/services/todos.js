@@ -70,6 +70,19 @@ class TodoServices {
       throw new Error(error.message);
     }
   };
+
+  static deleteAllTodos = async (userId) => {
+    try {
+      const todos = await prisma.todos.deleteMany({
+        where: {
+          userId,
+        },
+      });
+      return todos;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
 }
 
 module.exports = TodoServices;

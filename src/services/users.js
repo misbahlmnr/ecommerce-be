@@ -14,6 +14,19 @@ class UserServices {
     }
   };
 
+  static getUserById = async (id) => {
+    try {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      return existingUser;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
   static createUser = async (data) => {
     try {
       const user = await prisma.user.create({

@@ -21,18 +21,18 @@ const getTodoByIdController = async (req, res) => {
   const { id } = req.params;
 
   if (typeof parseInt(id) !== "number") {
-    return res.status(400).send(formatResponseAPI.error("Invalid product id"));
+    return res.status(400).send(formatResponseAPI.error("Invalid todo id"));
   }
 
   try {
     const todo = await TodoServices.getTodoById(parseInt(id), userId);
 
     if (!todo) {
-      return res.status(400).send(formatResponseAPI.error("Product not found"));
+      return res.status(400).send(formatResponseAPI.error("Todo not found"));
     }
 
     return res.send(
-      formatResponseAPI.success("Product fetched successfully", todo)
+      formatResponseAPI.success("Todo fetched successfully", todo)
     );
   } catch (error) {
     return res
@@ -45,7 +45,7 @@ const postTodoController = async (req, res) => {
   const userId = req.user.id;
   const { title, description, archived } = req.body;
 
-  if (!title || !description) {
+  if (!title) {
     return res
       .status(422)
       .send(formatResponseAPI.error("Please provide all required fields"));
@@ -61,7 +61,7 @@ const postTodoController = async (req, res) => {
 
     return res
       .status(201)
-      .send(formatResponseAPI.success("Product created", todo));
+      .send(formatResponseAPI.success("Todo created", todo));
   } catch (error) {
     return res
       .status(500)
@@ -75,10 +75,10 @@ const putTodoController = async (req, res) => {
   const { title, description, archived } = req.body;
 
   if (typeof parseInt(id) !== "number") {
-    return res.status(400).send(formatResponseAPI.error("Invalid product id"));
+    return res.status(400).send(formatResponseAPI.error("Invalid todo id"));
   }
 
-  if (!title || !description) {
+  if (!title) {
     return res
       .status(422)
       .send(formatResponseAPI.error("Please provide all required fields"));
@@ -93,7 +93,7 @@ const putTodoController = async (req, res) => {
     });
 
     if (!todo) {
-      return res.status(400).send(formatResponseAPI.error("Product not found"));
+      return res.status(400).send(formatResponseAPI.error("Todo not found"));
     }
 
     return res.send(formatResponseAPI.success("Todo updated", todo));
@@ -109,14 +109,14 @@ const deleteTodoController = async (req, res) => {
   const { id } = req.params;
 
   if (typeof parseInt(id) !== "number") {
-    return res.status(400).send(formatResponseAPI.error("Invalid product id"));
+    return res.status(400).send(formatResponseAPI.error("Invalid todo id"));
   }
 
   try {
     const todo = await TodoServices.deleteTodo(parseInt(id), userId);
 
     if (!todo) {
-      return res.status(400).send(formatResponseAPI.error("Product not found"));
+      return res.status(400).send(formatResponseAPI.error("Todo not found"));
     }
 
     return res.send(formatResponseAPI.success("Todo deleted", todo));
@@ -127,10 +127,23 @@ const deleteTodoController = async (req, res) => {
   }
 };
 
+const deleteAllTodoController = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const todo = await TodoServices.deleteAllTodos(userId);
+
+    return res.send(formatResponseAPI.success("All todo deleted", todo));
+  } catch (err) {
+    return res.status(500).send(formatResponseAPI.error(err.message, err));
+  }
+};
+
 module.exports = {
   getAllTodoController,
   getTodoByIdController,
   postTodoController,
   putTodoController,
   deleteTodoController,
+  deleteAllTodoController,
 };

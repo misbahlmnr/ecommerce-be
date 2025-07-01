@@ -5,8 +5,9 @@ const {
   putTodoController,
   deleteTodoController,
   deleteAllTodoController,
-} = require("@/controllers/todo");
-const upload = require("@/middleware/upload");
+} = require("../controllers/todo");
+const upload = require("../middleware/upload");
+
 const express = require("express");
 
 const router = express.Router();

@@ -1,4 +1,4 @@
-const { getProfileController } = require("@/controllers/profile");
+const { getProfileController } = require("../controllers/profile");
 const express = require("express");
 const router = express.Router();
 

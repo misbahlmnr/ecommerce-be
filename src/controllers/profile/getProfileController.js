@@ -1,5 +1,5 @@
-const { UserServices } = require("@/services");
-const formatResponseAPI = require("@/utils");
+const { UserServices } = require("../../services");
+const formatResponseAPI = require("../../utils");
 
 const getProfileController = async (req, res) => {
   const userId = req.user.id;
